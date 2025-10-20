@@ -12,6 +12,10 @@ const GenrePage = ({ genre }) => {
 
   // Handle successful game addition
   const handleGameAdded = (newGame) => {
+    // Debug: Log the new game data to see structure
+    console.log("New game data received:", newGame);
+    console.log("Image URL:", newGame.url);
+
     // Add the new game to the local state immediately
     setGames((prevGames) => [...prevGames, newGame]);
     // Close the form
