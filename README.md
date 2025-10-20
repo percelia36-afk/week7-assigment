@@ -57,7 +57,7 @@ This project is a comprehensive full-stack game library application that allows 
 - Form for game submission with basic validation
 - Fields include: title, series, studio, genre, description, and image URL
 - Dropdown selection for genres with 15+ options
-- Success messaging and form reset functionality
+- Success messaging and form reset functionality (does not auto render entry on the dinamic pages in diployment could not figure out if its cause of render bug or a code error)
 
 #### 🎯 React Router Implementation
 
