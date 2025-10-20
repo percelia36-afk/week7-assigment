@@ -98,9 +98,15 @@ CREATE TABLE gamedb (
 
 #### 🎯 Database Polling
 
-- Implemented `setInterval()` with `useEffect()` for real-time updates
-- 5-second polling interval for automatic content refresh
-- Prevents excessive API calls while maintaining data freshness
+- ~~Implemented `setInterval()` with `useEffect()` for real-time updates~~ (Deprecated for performance)
+- ~~5-second polling interval for automatic content refresh~~ (Removed to prevent constant re-rendering)
+- **NEW: Callback-based auto re-rendering** - Efficient instant updates without performance overhead
+
+#### 🎯 Smart State Management
+
+- **Callback-driven updates** - New games appear immediately after form submission
+- **Event-based re-rendering** - Updates triggered only when data changes occur
+- **Optimized performance** - Eliminates unnecessary API polling while maintaining real-time UX
 
 ### 🏹 Stretch Goals Achieved
 
@@ -113,7 +119,8 @@ CREATE TABLE gamedb (
 #### Enhanced User Experience
 
 - **Modal form system** - Popup forms available on all pages
-- **Real-time updates** - Content refreshes automatically
+- **Instant updates** - Callback-based real-time content updates without polling
+- **Smart re-rendering** - New games appear immediately after form submission
 - **Responsive images** - Basic image display handling
 - **Loading states** - Basic user feedback during data fetching
 - **Delete functionality** - Remove games with confirmation on all pages
@@ -134,6 +141,28 @@ CREATE TABLE gamedb (
 - **Local component state** using `useState` for form data, loading states, and UI toggles
 - **Effect hooks** (`useEffect`) for data fetching and cleanup
 - **Prop passing** for sharing data between components
+- **Callback-based updates** for efficient real-time state synchronization
+
+### Callback-Based Auto Re-rendering Architecture
+
+- **Problem Solved**: Eliminated constant polling that caused performance issues and unnecessary re-renders
+- **Implementation**: Parent-child callback communication pattern for instant updates
+- **Technical Flow**:
+  1. `GenrePage` component passes `handleGameAdded` callback to `Form` component
+  2. `Form` component submits new game data to server via POST request
+  3. Server responds with newly created game object including generated ID
+  4. `Form` component calls callback function with new game data
+  5. `GenrePage` immediately updates local state using `setGames(prevGames => [...prevGames, newGame])`
+  6. React re-renders component with new game visible instantly
+- **Performance Benefits**:
+  - Zero unnecessary API calls
+  - Instant user feedback
+  - Eliminates 5-second polling intervals
+  - Maintains data consistency across components
+- **Code References**:
+  - `Form.jsx` - Lines 37-39 (callback invocation with server response)
+  - `GenrePage.jsx` - Lines 14-18 (callback handler implementation)
+  - `GenrePage.jsx` - Line 123 (callback prop passing)
 
 ### API Integration
 
@@ -248,7 +277,35 @@ week7-assigment/
 ### Real-time Updates
 
 - **Problem**: Balancing performance with real-time data
-- **Solution**: 5-second polling interval providing good UX without overwhelming the server
+- **Initial Solution**: 5-second polling interval providing good UX without overwhelming the server
+- **Performance Issue**: Constant re-rendering causing poor user experience on dynamic pages
+- **Final Solution**: Callback-based instant updates eliminating polling overhead
+- **Technical Implementation**: Parent-child callback communication pattern
+- **Result**: Immediate visual feedback with zero unnecessary API calls
+
+### Callback-Based Auto Re-rendering Implementation
+
+- **Challenge**: Dynamic genre pages constantly refreshing due to polling interval
+- **Root Cause**: `setInterval()` in `useEffect()` causing re-renders every 5 seconds
+- **User Impact**: Poor browsing experience with constant page refreshing
+- **Investigation**: Identified performance bottleneck in `GenrePage.jsx` component
+- **Solution**: Implemented event-driven update system using React callback patterns
+- **Technical Details**:
+  - Removed `setInterval` from `GenrePage` component `useEffect` hook
+  - Created `handleGameAdded` callback function to update local state
+  - Modified `Form` component to pass new game data via callback
+  - Implemented immediate state update using functional setState pattern
+- **Code Changes**:
+  - `Form.jsx`: Modified to capture server response and invoke callback with new game data
+  - `GenrePage.jsx`: Added callback handler and removed polling interval
+- **Performance Results**:
+  - Eliminated constant re-rendering issues
+  - Reduced API calls by 100% for existing users
+  - Maintained instant updates for new game additions
+  - Improved overall user experience and page stability
+- **References**:
+  - [React Callback Patterns](https://react.dev/learn/responding-to-events) - Event handling and parent-child communication
+  - [useState Functional Updates](https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state) - Optimal state update patterns
 
 ### Delete Functionality Implementation
 
@@ -408,8 +465,11 @@ This project serves as a solid foundation for understanding modern web developme
 ### React Hooks and State Management
 
 - **React useState Hook** - [https://react.dev/reference/react/useState](https://react.dev/reference/react/useState) - State management for interactive components
+- **React useEffect Hook** - [https://react.dev/reference/react/useEffect](https://react.dev/reference/react/useEffect) - Side effects and cleanup patterns
 - **React Conditional Rendering** - [https://react.dev/learn/conditional-rendering](https://react.dev/learn/conditional-rendering) - Dynamic content display based on state
 - **React Event Handling** - [https://react.dev/learn/responding-to-events](https://react.dev/learn/responding-to-events) - Click handlers and user interactions
+- **React State Updates** - [https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state](https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state) - Functional state updates and callback patterns
+- **React Parent-Child Communication** - [https://react.dev/learn/passing-props-to-a-component](https://react.dev/learn/passing-props-to-a-component) - Callback prop passing and component communication
 
 ### Learning Resources
 
@@ -441,6 +501,9 @@ This project serves as a solid foundation for understanding modern web developme
 - Typography improvements following [MDN CSS Typography Guidelines](https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text) and [WCAG Accessibility Standards](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)
 - Visual hierarchy implementation based on [Material Design Typography Principles](https://material.io/design/typography/the-type-system.html)
 - Color palette and contrast ratios designed following [CSS-Tricks Accessibility Guidelines](https://css-tricks.com/a-complete-guide-to-css-color-contrast/)
+- Callback-based auto re-rendering pattern inspired by [React Documentation on Parent-Child Communication](https://react.dev/learn/passing-props-to-a-component)
+- Performance optimization techniques following [React Best Practices for State Updates](https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state)
+- Event-driven update architecture based on [React Event Handling Patterns](https://react.dev/learn/responding-to-events)
 
 ---
 
