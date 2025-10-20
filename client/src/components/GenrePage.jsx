@@ -10,6 +10,14 @@ const GenrePage = ({ genre }) => {
     setShowForm(!showForm);
   };
 
+  // Handle successful game addition
+  const handleGameAdded = (newGame) => {
+    // Add the new game to the local state immediately
+    setGames((prevGames) => [...prevGames, newGame]);
+    // Close the form
+    setShowForm(false);
+  };
+
   // Delete game function
   const deleteGame = async (gameId) => {
     try {
@@ -129,7 +137,7 @@ const GenrePage = ({ genre }) => {
             >
               ×
             </button>
-            <Form onSuccess={toggleForm} />
+            <Form onSuccess={handleGameAdded} />
           </div>
         </div>
       )}

@@ -39,7 +39,7 @@ const Form = ({ onSuccess }) => {
       );
 
       if (response.ok) {
-        await response.json(); // Parse response but don't store unused
+        const newGame = await response.json(); // Get the newly created game data
         setMessage("Game added successfully!");
         setFormData({
           title: "",
@@ -51,7 +51,7 @@ const Form = ({ onSuccess }) => {
         });
         // Call onSuccess callback if provided
         if (onSuccess) {
-          setTimeout(() => onSuccess(), 1500); // Close modal after 1.5 seconds
+          setTimeout(() => onSuccess(newGame), 1500); // Pass the new game data and close modal after 1.5 seconds
         }
       } else {
         setMessage("Failed to add game. Please try again.");
