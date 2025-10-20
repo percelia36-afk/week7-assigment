@@ -6,6 +6,8 @@ This project is a comprehensive full-stack game library application that allows 
 
 **Live Application:** [https://week7-assigment-1.onrender.com](https://week7-assigment-1.onrender.com)  
 **Backend Server:** [https://week7-assigment.onrender.com](https://week7-assigment.onrender.com)
+##bugs i could not fix pathing error once on render cuase the genra pages to give not found
+.
 
 ## Tech Stack
 
