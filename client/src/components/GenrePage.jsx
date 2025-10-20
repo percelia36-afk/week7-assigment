@@ -49,13 +49,6 @@ const GenrePage = ({ genre }) => {
     };
 
     fetchGamesByGenre();
-
-    // Set up interval to refresh every 5 seconds
-    const interval = setInterval(() => {
-      fetchGamesByGenre();
-    }, 5000);
-
-    return () => clearInterval(interval);
   }, [genre]);
 
   if (loading) {
